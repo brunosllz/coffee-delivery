@@ -1,5 +1,5 @@
 import CoffeImage from '../assets/coffee-image.png'
-import ExpressCoffee from '../assets/coffiies/expresso.svg'
+import ExpressCoffee from '../assets/coffiies/expresso.png'
 import {
   ShoppingCart,
   Timer,
@@ -70,9 +70,13 @@ export function Home() {
         <div className="grid grid-cols-4 gap-8 w-full mt-[2.125rem]">
           <div className="flex flex-col w-[256px] bg-gray-200 px-6 py-5 rounded-bl-[32px] rounded-br-md rounded-tl-md rounded-tr-[32px] ">
             <div className=" flex items-center justify-center -mt-[38px] ">
-              <div className="w-[120px] h-[120px]">
-                <img src={ExpressCoffee} alt="" className="bg-cover" />
-              </div>
+              <img
+                src={ExpressCoffee}
+                alt=""
+                width={120}
+                height={120}
+                className="object-cover"
+              />
             </div>
 
             <div className="w-full flex gap-1 items-center justify-center mt-3">
