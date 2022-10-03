@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import CoffeImage from '../assets/coffee-image.png'
+import { CoffeeCard } from '../../components/CoffeeCard'
 
-import {
-  ShoppingCart,
-  Timer,
-  Package,
-  Coffee,
-  ShoppingCartSimple,
-} from 'phosphor-react'
+import CoffeImage from '../../assets/coffee-image.png'
+import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
 
 interface Tag {
   id: string
@@ -98,55 +93,7 @@ export function Home() {
 
         <div className="grid grid-cols-4 gap-8 w-full mt-[2.125rem]">
           {coffies.map((coffee) => {
-            return (
-              <div
-                key={coffee.id}
-                className="flex flex-col w-[256px] bg-gray-200 px-6 py-5 rounded-bl-[32px] rounded-br-md rounded-tl-md rounded-tr-[32px] "
-              >
-                <div className=" flex items-center justify-center -mt-[38px] ">
-                  <img
-                    src={coffee.imageUrl}
-                    alt=""
-                    width={120}
-                    height={120}
-                    className="object-cover"
-                  />
-                </div>
-
-                <div className="w-full flex gap-1 items-center justify-center mt-3">
-                  <div className="py-1 px-2 bg-yellow-300 rounded-full flex items-center justify-center">
-                    <strong className="text-[0.625rem] text-yellow-700">
-                      TRADICONAL
-                    </strong>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center justify-center mt-4">
-                  <strong className="font-baloo font-bold text-xl">
-                    Expresso Tradicional
-                  </strong>
-                  <span className="text-sm text-center text-brown-300">
-                    O tradicional café feito com água quente e grãos moídos
-                  </span>
-                </div>
-
-                <footer className="flex items-center justify-between mt-8">
-                  <span className="text-sm">
-                    R${' '}
-                    <strong className="text-2xl font-baloo font-extrabold">
-                      9,90
-                    </strong>
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <input className="w-[72px] h-[38px] rounded-md bg-gray-300" />
-
-                    <button className="flex h-[38px] w-[38px]  text-white items-center justify-center rounded-md bg-purple-700">
-                      <ShoppingCartSimple size={18} weight="fill" />
-                    </button>
-                  </div>
-                </footer>
-              </div>
-            )
+            return <CoffeeCard key={coffee.id} data={coffee} />
           })}
         </div>
       </section>
