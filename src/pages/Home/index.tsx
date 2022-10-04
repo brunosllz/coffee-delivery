@@ -34,8 +34,8 @@ export function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col h-screen w-full ">
-      <section className="flex items-center bg-gradient-background bg-cover bg-no-repeat mt-[144px]">
+    <main className="flex flex-col h-screen w-full">
+      <section className="flex items-center bg-gradient-background bg-cover bg-no-repeat">
         <div className="flex max-w-[1120px] mx-auto py-[5.75rem] gap-14">
           <div className="flex flex-col gap-[4.125rem] max-w-[567px] ">
             <div className="flex flex-col gap-4">
@@ -97,6 +97,6 @@ export function Home() {
           })}
         </div>
       </section>
-    </div>
+    </main>
   )
 }
