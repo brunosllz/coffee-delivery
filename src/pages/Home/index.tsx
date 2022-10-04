@@ -26,7 +26,6 @@ export function Home() {
     const response = await axios.get('http://localhost:3333/coffies')
 
     setCoffies(response.data)
-    console.log(response.data)
   }
 
   useEffect(() => {

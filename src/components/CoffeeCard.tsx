@@ -1,4 +1,8 @@
-import { ShoppingCartSimple } from 'phosphor-react'
+import { ShoppingCartSimple, Plus, Minus } from 'phosphor-react'
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { ShoopingCartContext } from '../contexts/ShoopingCartContext'
+import z from 'zod'
 
 interface Tag {
   id: string
@@ -18,7 +22,25 @@ interface CoffeeCardProps {
   data: Coffee
 }
 
+const addCoffeeToCardSchema = z.object({
+  amount: z.number(),
+})
+
+type addCoffeeToCardType = z.infer<typeof addCoffeeToCardSchema>
+
 export function CoffeeCard({ data }: CoffeeCardProps) {
+  const { addItemtoShoopingCart } = useContext(ShoopingCartContext)
+  const { handleSubmit, register } = useForm<addCoffeeToCardType>({
+    defaultValues: { amount: 1 },
+  })
+
+  async function handleAddCoffeeToCart(dataInput: addCoffeeToCardType) {
+    const { amount } = dataInput
+    const coffeeSelected = { ...data, amount }
+
+    addItemtoShoopingCart(coffeeSelected)
+  }
+
   return (
     <div className="flex flex-col w-[256px] bg-gray-200 px-6 py-5 rounded-bl-[32px] rounded-br-md rounded-tl-md rounded-tr-[32px] ">
       <div className=" flex items-center justify-center -mt-[38px] ">
@@ -60,13 +82,28 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
             {data.price}
           </strong>
         </span>
-        <div className="flex items-center gap-2">
-          <input className="w-[72px] h-[38px] rounded-md bg-gray-300" />
+        <form
+          onSubmit={handleSubmit(handleAddCoffeeToCart)}
+          className="flex items-center gap-2 group-focus:ring-1 group-focus:ring-yellow-500"
+        >
+          <div className="w-[72px] h-[38px] rounded-md bg-gray-300 flex items-center group">
+            <button className="w-full group" type="button">
+              <Plus />
+            </button>
+            <input
+              className="w-[20px] h-[38px] bg-gray-300 group-focus:ring-1 group-focus:ring-yellow-500"
+              type="number"
+              {...register('amount', { valueAsNumber: true })}
+            />
+            <button className="w-full" type="button">
+              <Minus />
+            </button>
+          </div>
 
           <button className="flex h-[38px] w-[38px]  text-white items-center justify-center rounded-md bg-purple-700">
             <ShoppingCartSimple size={18} weight="fill" />
           </button>
-        </div>
+        </form>
       </footer>
     </div>
   )

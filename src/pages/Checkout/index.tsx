@@ -2,10 +2,12 @@ import { useForm } from 'react-hook-form'
 
 import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
 
-import CoffeeImage from '../../assets/coffies/americano.png'
 import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
+import { useContext } from 'react'
+import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
 
 export function Checkout() {
+  const { selectedCoffies } = useContext(ShoopingCartContext)
   const { control } = useForm({})
 
   return (
@@ -89,58 +91,42 @@ export function Checkout() {
 
           <div className="bg-gray-200 rounded-md p-10 flex flex-col">
             <ul className="flex flex-col gap-6">
-              <li className="flex items-center justify-between border-b-[1px] border-b-gray-400 pb-6">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 flex items-center justify-center">
-                    <img
-                      src={CoffeeImage}
-                      alt=""
-                      width={64}
-                      height={64}
-                      className="object-cover"
-                    />
-                  </div>
+              {selectedCoffies.map((coffee) => {
+                return (
+                  <li
+                    key={coffee.id}
+                    className="flex items-center justify-between border-b-[1px] border-b-gray-400 pb-6"
+                  >
+                    <div className="flex items-center gap-5">
+                      <div className="w-16 h-16 flex items-center justify-center">
+                        <img
+                          src={coffee.imageUrl}
+                          alt=""
+                          width={64}
+                          height={64}
+                          className="object-cover"
+                        />
+                      </div>
 
-                  <div className="flex flex-col gap-2">
-                    <span>Expresso Tradicional</span>
-                    <div className="flex items-center justify-start gap-4">
-                      <input className="h-8 w-[72px] rounded-md bg-gray-300 p-3" />
-                      <button className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300">
-                        <Trash size={16} className="text-purple-500" />
-                        Remover
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        <span>{coffee.name}</span>
+                        <div className="flex items-center justify-start gap-4">
+                          <input
+                            defaultValue={coffee.amount}
+                            className="h-8 w-[72px] rounded-md bg-gray-300 p-3"
+                          />
+                          <button className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300">
+                            <Trash size={16} className="text-purple-500" />
+                            Remover
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                <strong>R$ 9,90</strong>
-              </li>
-              <li className="flex items-center justify-between border-b-[1px] border-b-gray-400 pb-6">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 flex items-center justify-center">
-                    <img
-                      src={CoffeeImage}
-                      alt=""
-                      width={64}
-                      height={64}
-                      className="object-cover"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <span>Expresso Tradicional</span>
-                    <div className="flex items-center justify-start gap-4">
-                      <input className="h-8 w-[72px] rounded-md bg-gray-300 p-3" />
-                      <button className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300">
-                        <Trash size={16} className="text-purple-500" />
-                        Remover
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <strong>R$ 9,90</strong>
-              </li>
+                    <strong>{coffee.price}</strong>
+                  </li>
+                )
+              })}
             </ul>
 
             <footer className="flex flex-col mt-6 gap-3">

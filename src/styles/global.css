@@ -16,3 +16,11 @@ button,
 textarea {
   @apply focus:outline-0 focus:ring-1 focus:ring-yellow-700;
 }
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
