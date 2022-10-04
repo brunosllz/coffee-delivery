@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { CoffeeCard } from './components/CoffeeCard'
 
 import CoffeImage from '../../assets/coffee-image.png'
 import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'

@@ -1,8 +1,11 @@
-import { ShoppingCartSimple, Plus, Minus } from 'phosphor-react'
 import { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { ShoopingCartContext } from '../contexts/ShoopingCartContext'
+import { useForm, FormProvider } from 'react-hook-form'
+import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 import z from 'zod'
+
+import { AmountInput } from '../../../components/AmountInput'
+
+import { ShoppingCartSimple } from 'phosphor-react'
 
 interface Tag {
   id: string
@@ -30,9 +33,11 @@ type addCoffeeToCardType = z.infer<typeof addCoffeeToCardSchema>
 
 export function CoffeeCard({ data }: CoffeeCardProps) {
   const { addItemtoShoopingCart } = useContext(ShoopingCartContext)
-  const { handleSubmit, register } = useForm<addCoffeeToCardType>({
+  const addCoffeeToCard = useForm<addCoffeeToCardType>({
     defaultValues: { amount: 1 },
   })
+
+  const { register, handleSubmit } = addCoffeeToCard
 
   async function handleAddCoffeeToCart(dataInput: addCoffeeToCardType) {
     const { amount } = dataInput
@@ -86,19 +91,9 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
           onSubmit={handleSubmit(handleAddCoffeeToCart)}
           className="flex items-center gap-2 group-focus:ring-1 group-focus:ring-yellow-500"
         >
-          <div className="w-[72px] h-[38px] rounded-md bg-gray-300 flex items-center group">
-            <button className="w-full group" type="button">
-              <Plus />
-            </button>
-            <input
-              className="w-[20px] h-[38px] bg-gray-300 group-focus:ring-1 group-focus:ring-yellow-500"
-              type="number"
-              {...register('amount', { valueAsNumber: true })}
-            />
-            <button className="w-full" type="button">
-              <Minus />
-            </button>
-          </div>
+          <FormProvider {...addCoffeeToCard}>
+            <AmountInput {...register('amount')} />
+          </FormProvider>
 
           <button className="flex h-[38px] w-[38px]  text-white items-center justify-center rounded-md bg-purple-700">
             <ShoppingCartSimple size={18} weight="fill" />

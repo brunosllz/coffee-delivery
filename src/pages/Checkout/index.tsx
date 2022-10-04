@@ -1,14 +1,17 @@
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 
 import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
 
 import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 import { useContext } from 'react'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
+import { AmountInput } from '../../components/AmountInput'
 
 export function Checkout() {
   const { selectedCoffies } = useContext(ShoopingCartContext)
-  const { control } = useForm({})
+  const checkoutForm = useForm()
+
+  const { control, register } = checkoutForm
 
   return (
     <main className="flex h-screen w-full mt-10">
@@ -111,10 +114,13 @@ export function Checkout() {
                       <div className="flex flex-col gap-2">
                         <span>{coffee.name}</span>
                         <div className="flex items-center justify-start gap-4">
-                          <input
-                            defaultValue={coffee.amount}
-                            className="h-8 w-[72px] rounded-md bg-gray-300 p-3"
-                          />
+                          <FormProvider {...checkoutForm}>
+                            <AmountInput
+                              {...register(`coffeeAmount_${coffee.id}`, {
+                                value: coffee.amount,
+                              })}
+                            />
+                          </FormProvider>
                           <button className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300">
                             <Trash size={16} className="text-purple-500" />
                             Remover
