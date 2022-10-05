@@ -56,7 +56,7 @@ export function PaymentMethodToggleGroup<T extends FieldValues = FieldValues>({
             key={paymentMethod.id}
             value={paymentMethod.id}
             type="button"
-            className="flex items-center text-xs justify-center gap-3 [&[data-state='on']]:bg-purple-300  w-full p-4 rounded-md bg-gray-400 transition-colors hover:bg-gray-500 focus:ring-purple-500"
+            className="flex items-center text-xs justify-center gap-3 [&[data-state='on']]:bg-purple-300 [&[data-state='on']]:ring-1 [&[data-state='on']]:ring-purple-500   w-full p-4 rounded-md bg-gray-400 transition-colors hover:bg-gray-500 focus:ring-purple-500"
           >
             {paymentMethod.icon}
             {paymentMethod.title}
