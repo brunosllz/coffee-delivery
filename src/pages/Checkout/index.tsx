@@ -159,7 +159,7 @@ export function Checkout() {
 
                           <button
                             onClick={() => handleRemoveCoffee(coffee.id)}
-                            className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300"
+                            className="flex items-center justify-center p-2 gap-1 rounded-lg bg-gray-400 hover:bg-gray-500"
                           >
                             <Trash size={16} className="text-purple-500" />
                             Remover
@@ -188,7 +188,7 @@ export function Checkout() {
                 <strong className="text-xl font-bold">R$ 33,20</strong>
               </div>
 
-              <button className="w-full bg-yellow-700 text-white border-0 rounded-md py-3 mt-6 font-bold uppercase">
+              <button className="w-full bg-yellow-500 hover:bg-yellow-700 transition-colors text-white border-0 rounded-md py-3 mt-6 font-bold uppercase">
                 Confirmar pedido
               </button>
             </footer>
