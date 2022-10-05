@@ -9,7 +9,6 @@ interface InputUncontrollerProps extends ComponentPropsWithoutRef<'input'> {
 
 export const AmountInput = forwardRef<HTMLInputElement, InputUncontrollerProps>(
   ({ name, ...props }: InputUncontrollerProps, ref) => {
-    // const [amount, setAmount] = useState()
     const { setValue, getValues } = useFormContext()
 
     function handleIncrementAmount() {

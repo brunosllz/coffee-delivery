@@ -1,6 +1,8 @@
 import { ReactNode } from 'react'
 import { useController, Control, FieldValues, Path } from 'react-hook-form'
+
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
+
 import { CreditCard, Bank, Money } from 'phosphor-react'
 
 interface PaymentMethod {

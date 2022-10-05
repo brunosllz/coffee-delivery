@@ -1,11 +1,7 @@
 import { useContext } from 'react'
-
-import { Minus, Plus } from 'phosphor-react'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 
-// interface InputUncontrollerProps extends ComponentPropsWithoutRef<'input'> {
-//   name: string
-// }
+import { Minus, Plus } from 'phosphor-react'
 
 interface AmountInputCheckoutProps {
   coffeeId: string

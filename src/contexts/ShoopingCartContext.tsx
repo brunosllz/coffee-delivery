@@ -32,7 +32,6 @@ interface ShoopingCartProviderProps {
 
 export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
   const [selectedCoffies, setSelectedCoffies] = useState<Coffee[]>([])
-  console.log(selectedCoffies)
 
   function addCoffeetoShoopingCart({ data }: AddCoffeeToShoopingCartData) {
     const addCoffee = selectedCoffies.map((coffee) => {

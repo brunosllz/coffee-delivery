@@ -37,12 +37,14 @@ export function CoffeeCard({ coffee, tags }: CoffeeCardProps) {
     defaultValues: { amount: 1 },
   })
 
-  const { register, handleSubmit } = addCoffeeToCard
+  const { register, handleSubmit, reset } = addCoffeeToCard
 
-  async function handleAddCoffeeToCart({ amount }: addCoffeeToCardType) {
+  function handleAddCoffeeToCart({ amount }: addCoffeeToCardType) {
     const selectedCoffee = { ...coffee, amount }
 
     addCoffeetoShoopingCart({ data: selectedCoffee })
+
+    reset()
   }
 
   return (
