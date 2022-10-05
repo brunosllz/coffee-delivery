@@ -24,7 +24,7 @@ const userAddressInfoSchema = z.object({
 type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
 
 export function Checkout() {
-  const { selectedCoffies, removeCoffeeatCheckout } =
+  const { selectedCoffies, removeCoffeeAtCheckout } =
     useContext(ShoopingCartContext)
   const checkoutForm = useForm<UserAddressInfoType>()
 
@@ -35,7 +35,7 @@ export function Checkout() {
   }
 
   function handleRemoveCoffee(coffeeId: string) {
-    removeCoffeeatCheckout(coffeeId)
+    removeCoffeeAtCheckout(coffeeId)
   }
 
   return (
@@ -154,7 +154,7 @@ export function Checkout() {
                         <div className="flex items-center justify-start gap-4">
                           <AmountInputCheckout
                             coffeeId={coffee.id}
-                            amount={coffee.coffeeAmount.amount}
+                            amount={coffee.amount}
                           />
 
                           <button

@@ -7,12 +7,15 @@ import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 //   name: string
 // }
 
-interface InputProps {
+interface AmountInputCheckoutProps {
   coffeeId: string
   amount: number
 }
 
-export function AmountInputCheckout({ coffeeId, amount }: InputProps) {
+export function AmountInputCheckout({
+  coffeeId,
+  amount,
+}: AmountInputCheckoutProps) {
   const { selectedCoffies, updateAmountCoffeeAtCheckout } =
     useContext(ShoopingCartContext)
 
@@ -23,9 +26,9 @@ export function AmountInputCheckout({ coffeeId, amount }: InputProps) {
     const searchCoffee = updateCoffee.find((coffee) => coffee.id === coffeeId)
 
     if (searchCoffee) {
-      searchCoffee.coffeeAmount.amount += 1
+      searchCoffee.amount += 1
 
-      updateAmountCoffeeAtCheckout(updateCoffee)
+      updateAmountCoffeeAtCheckout({ data: updateCoffee })
     }
   }
 
@@ -36,9 +39,9 @@ export function AmountInputCheckout({ coffeeId, amount }: InputProps) {
     const searchCoffee = updateCoffee.find((coffee) => coffee.id === coffeeId)
 
     if (searchCoffee) {
-      if (searchCoffee.coffeeAmount.amount !== 1) {
-        searchCoffee.coffeeAmount.amount -= 1
-        updateAmountCoffeeAtCheckout(updateCoffee)
+      if (searchCoffee.amount !== 1) {
+        searchCoffee.amount -= 1
+        updateAmountCoffeeAtCheckout({ data: updateCoffee })
       }
     }
   }

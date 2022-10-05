@@ -92,7 +92,9 @@ export function Home() {
 
         <div className="grid grid-cols-4 gap-8 w-full mt-[2.125rem]">
           {coffies.map((coffee) => {
-            return <CoffeeCard key={coffee.id} data={coffee} />
+            return (
+              <CoffeeCard key={coffee.id} coffee={coffee} tags={coffee.tags} />
+            )
           })}
         </div>
       </section>

@@ -14,15 +14,15 @@ interface Tag {
 
 interface Coffee {
   id: string
+  description: string
   name: string
   imageUrl: string
-  description: string
   price: number
-  tags: Tag[]
 }
 
 interface CoffeeCardProps {
-  data: Coffee
+  coffee: Coffee
+  tags: Tag[]
 }
 
 const addCoffeeToCardSchema = z.object({
@@ -31,30 +31,25 @@ const addCoffeeToCardSchema = z.object({
 
 type addCoffeeToCardType = z.infer<typeof addCoffeeToCardSchema>
 
-export function CoffeeCard({ data }: CoffeeCardProps) {
-  const { addItemtoShoopingCart } = useContext(ShoopingCartContext)
+export function CoffeeCard({ coffee, tags }: CoffeeCardProps) {
+  const { addCoffeetoShoopingCart } = useContext(ShoopingCartContext)
   const addCoffeeToCard = useForm<addCoffeeToCardType>({
     defaultValues: { amount: 1 },
   })
 
   const { register, handleSubmit } = addCoffeeToCard
 
-  async function handleAddCoffeeToCart(dataInput: addCoffeeToCardType) {
-    const { amount } = dataInput
-    const { id } = data
-    const coffeeAmount = { id, amount }
+  async function handleAddCoffeeToCart({ amount }: addCoffeeToCardType) {
+    const selectedCoffee = { ...coffee, amount }
 
-    const coffeeSelected = { coffeeAmount, ...data }
-    console.log(coffeeSelected)
-
-    addItemtoShoopingCart(coffeeSelected)
+    addCoffeetoShoopingCart({ data: selectedCoffee })
   }
 
   return (
     <div className="flex flex-col w-[256px] bg-gray-200 px-6 py-5 rounded-bl-[32px] rounded-br-md rounded-tl-md rounded-tr-[32px] ">
       <div className=" flex items-center justify-center -mt-[38px] ">
         <img
-          src={data.imageUrl}
+          src={coffee.imageUrl}
           alt=""
           width={120}
           height={120}
@@ -63,7 +58,7 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
       </div>
 
       <div className="w-full flex gap-1 items-center justify-center mt-3">
-        {data.tags.map((tag) => {
+        {tags.map((tag) => {
           return (
             <div
               key={tag.id}
@@ -78,9 +73,9 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
       </div>
 
       <div className="flex flex-col items-center justify-center mt-4">
-        <strong className="font-baloo font-bold text-xl">{data.name}</strong>
+        <strong className="font-baloo font-bold text-xl">{coffee.name}</strong>
         <span className="text-sm text-center text-brown-300">
-          {data.description}
+          {coffee.description}
         </span>
       </div>
 
@@ -88,7 +83,7 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
         <span className="text-sm">
           R${' '}
           <strong className="text-2xl font-baloo font-extrabold">
-            {data.price}
+            {coffee.price}
           </strong>
         </span>
         <form

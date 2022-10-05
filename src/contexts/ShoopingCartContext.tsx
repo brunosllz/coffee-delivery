@@ -1,33 +1,27 @@
 import { createContext, ReactNode, useState } from 'react'
 
-interface CoffeeAmount {
+interface Coffee {
   id: string
+  description: string
+  name: string
+  imageUrl: string
+  price: number
   amount: number
 }
 
-interface AddItemtoShoopingCartData {
-  id: string
-  description: string
-  name: string
-  imageUrl: string
-  price: number
-  coffeeAmount: CoffeeAmount
+interface AddCoffeeToShoopingCartData {
+  data: Coffee
 }
 
-interface UpdateCoffeeCheckout {
-  id: string
-  description: string
-  name: string
-  imageUrl: string
-  price: number
-  coffeeAmount: CoffeeAmount
+interface UpdatedAmountCoffeeAtCheckout {
+  data: Coffee[]
 }
 
 interface ShoopingCartContextProps {
-  addItemtoShoopingCart: (data: AddItemtoShoopingCartData) => void
-  selectedCoffies: AddItemtoShoopingCartData[]
-  updateAmountCoffeeAtCheckout: (data: UpdateCoffeeCheckout[]) => void
-  removeCoffeeatCheckout: (coffeeId: string) => void
+  addCoffeetoShoopingCart: (data: AddCoffeeToShoopingCartData) => void
+  selectedCoffies: Coffee[]
+  updateAmountCoffeeAtCheckout: (data: UpdatedAmountCoffeeAtCheckout) => void
+  removeCoffeeAtCheckout: (coffeeId: string) => void
 }
 
 export const ShoopingCartContext = createContext({} as ShoopingCartContextProps)
@@ -37,11 +31,10 @@ interface ShoopingCartProviderProps {
 }
 
 export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
-  const [selectedCoffies, setSelectedCoffies] = useState<
-    AddItemtoShoopingCartData[]
-  >([])
+  const [selectedCoffies, setSelectedCoffies] = useState<Coffee[]>([])
+  console.log(selectedCoffies)
 
-  function addItemtoShoopingCart(data: AddItemtoShoopingCartData) {
+  function addCoffeetoShoopingCart({ data }: AddCoffeeToShoopingCartData) {
     const addCoffee = selectedCoffies.map((coffee) => {
       return { ...coffee }
     })
@@ -49,19 +42,24 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     const searchCoffee = addCoffee.find((coffee) => coffee.id === data.id)
 
     if (searchCoffee) {
-      searchCoffee!.coffeeAmount.amount += data.coffeeAmount.amount
+      searchCoffee.amount += data.amount
 
       return setSelectedCoffies(addCoffee)
     }
+    const NewCoffee = { ...data }
 
-    setSelectedCoffies((state) => [...state, data])
+    setSelectedCoffies((state) => {
+      return [...state, NewCoffee]
+    })
   }
 
-  function updateAmountCoffeeAtCheckout(data: UpdateCoffeeCheckout[]) {
+  function updateAmountCoffeeAtCheckout({
+    data,
+  }: UpdatedAmountCoffeeAtCheckout) {
     setSelectedCoffies(data)
   }
 
-  function removeCoffeeatCheckout(coffeeId: string) {
+  function removeCoffeeAtCheckout(coffeeId: string) {
     const deleteCoffee = selectedCoffies.filter(
       (coffee) => coffee.id !== coffeeId,
     )
@@ -72,10 +70,10 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
   return (
     <ShoopingCartContext.Provider
       value={{
-        addItemtoShoopingCart,
+        addCoffeetoShoopingCart,
         selectedCoffies,
         updateAmountCoffeeAtCheckout,
-        removeCoffeeatCheckout,
+        removeCoffeeAtCheckout,
       }}
     >
       {children}
