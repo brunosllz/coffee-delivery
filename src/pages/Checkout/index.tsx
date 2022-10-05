@@ -1,21 +1,49 @@
-import { useForm, FormProvider } from 'react-hook-form'
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
+import z from 'zod'
 
 import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
-
 import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
-import { useContext } from 'react'
-import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
-import { AmountInput } from '../../components/AmountInput'
+
+import { AmountInputCheckout } from './components/AmountInputCheckout'
+
+const userAddressInfoSchema = z.object({
+  cep: z.number(),
+  street: z.string(),
+  number: z.number(),
+  complement: z.string(),
+  neighborhood: z.string(),
+  city: z.string(),
+  state: z.string(),
+  paymentMethod: z.string(),
+  coffeeAmount: z.number(),
+  amount: z.string().array(),
+})
+
+type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
 
 export function Checkout() {
-  const { selectedCoffies } = useContext(ShoopingCartContext)
-  const checkoutForm = useForm()
+  const { selectedCoffies, removeCoffeeatCheckout } =
+    useContext(ShoopingCartContext)
+  const checkoutForm = useForm<UserAddressInfoType>()
 
-  const { control, register } = checkoutForm
+  const { control, register, handleSubmit } = checkoutForm
+
+  function handleCheckout(data: any) {
+    console.log(data)
+  }
+
+  function handleRemoveCoffee(coffeeId: string) {
+    removeCoffeeatCheckout(coffeeId)
+  }
 
   return (
     <main className="flex h-screen w-full mt-10">
-      <form className="flex w-full max-w-[1120px] mx-auto gap-8">
+      <form
+        onSubmit={handleSubmit(handleCheckout)}
+        className="flex w-full max-w-[1120px] mx-auto gap-8"
+      >
         <div className="flex flex-col gap-3 max-w-[640px]">
           <strong className="font-baloo text-lg text-brown-700">
             Complete seu pedido
@@ -38,33 +66,40 @@ export function Checkout() {
               <input
                 placeholder="CEP"
                 className="h-[42px] rounded-md bg-gray-300 p-3 w-[200px]"
+                {...register('cep', { valueAsNumber: true })}
               />
               <input
                 placeholder="Rua"
                 className="h-[42px] rounded-md bg-gray-300 p-3 "
+                {...register('street')}
               />
               <div className="flex items-center gap-3">
                 <input
                   placeholder="Número"
                   className="h-[42px] rounded-md bg-gray-300 p-3 "
+                  {...register('number')}
                 />
                 <input
                   placeholder="Complemento"
                   className="h-[42px] rounded-md bg-gray-300 p-3 flex-1"
+                  {...register('complement')}
                 />
               </div>
               <div className="flex items-center gap-3">
                 <input
                   placeholder="Bairro"
                   className="h-[42px] rounded-md bg-gray-300 p-3 "
+                  {...register('neighborhood')}
                 />
                 <input
                   placeholder="Cidade"
                   className="h-[42px] rounded-md bg-gray-300 p-3 flex-1"
+                  {...register('city')}
                 />
                 <input
                   placeholder="UF"
                   className="h-[42px] rounded-md bg-gray-300 p-3 w-[60px]"
+                  {...register('state')}
                 />
               </div>
             </div>
@@ -82,7 +117,10 @@ export function Checkout() {
             </div>
 
             <div className="mt-8">
-              <PaymentMethodToggleGroup name="teste" control={control} />
+              <PaymentMethodToggleGroup
+                name="paymentMethod"
+                control={control}
+              />
             </div>
           </footer>
         </div>
@@ -114,14 +152,15 @@ export function Checkout() {
                       <div className="flex flex-col gap-2">
                         <span>{coffee.name}</span>
                         <div className="flex items-center justify-start gap-4">
-                          <FormProvider {...checkoutForm}>
-                            <AmountInput
-                              {...register(`coffeeAmount_${coffee.id}`, {
-                                value: coffee.amount,
-                              })}
-                            />
-                          </FormProvider>
-                          <button className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300">
+                          <AmountInputCheckout
+                            coffeeId={coffee.id}
+                            amount={coffee.coffeeAmount.amount}
+                          />
+
+                          <button
+                            onClick={() => handleRemoveCoffee(coffee.id)}
+                            className="flex items-center justify-center p-2 gap-1 rounded-lg bg-purple-300"
+                          >
                             <Trash size={16} className="text-purple-500" />
                             Remover
                           </button>

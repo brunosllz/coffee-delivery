@@ -29,7 +29,7 @@ const paymentMethods: PaymentMethod[] = [
 
 interface WeekDayslInputControllProps<T extends FieldValues = FieldValues> {
   name: Path<T>
-  control?: Control<T>
+  control: Control<T>
 }
 
 export function PaymentMethodToggleGroup<T extends FieldValues = FieldValues>({
