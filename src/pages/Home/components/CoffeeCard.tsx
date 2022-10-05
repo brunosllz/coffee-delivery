@@ -96,7 +96,7 @@ export function CoffeeCard({ coffee, tags }: CoffeeCardProps) {
             <AmountInput {...register('amount')} />
           </FormProvider>
 
-          <button className="flex h-[38px] w-[38px]  text-white items-center justify-center rounded-md bg-purple-700">
+          <button className="flex h-[38px] w-[38px]  text-white items-center justify-center rounded-md bg-purple-700 hover:bg-purple-500 transition-colors">
             <ShoppingCartSimple size={18} weight="fill" />
           </button>
         </form>

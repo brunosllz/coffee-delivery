@@ -26,28 +26,28 @@ export const AmountInput = forwardRef<HTMLInputElement, InputUncontrollerProps>(
     }
 
     return (
-      <div className="w-[72px] h-[38px] rounded-md bg-gray-300 flex items-center group">
+      <div className="w-[72px] h-[38px] rounded-md bg-gray-300 flex items-center">
         <button
           type="button"
           onClick={handleDecrementAmount}
-          className="w-full group"
+          className="w-full flex items-center justify-center text-purple-500 hover:text-purple-700 transition-colors focus:ring-0"
         >
-          <Minus />
+          <Minus size={14} weight="bold" />
         </button>
         <input
           ref={ref}
           readOnly
           value={getValues(name)}
-          className="w-[20px] h-[38px] bg-gray-300 group-focus:ring-1 group-focus:ring-yellow-500"
+          className="w-[20px] h-[38px] bg-gray-300 text-center"
           type="number"
           {...props}
         />
         <button
           type="button"
           onClick={handleIncrementAmount}
-          className="w-full"
+          className="w-full flex items-center justify-center text-purple-500 hover:text-purple-700 transition-colors focus:ring-0"
         >
-          <Plus />
+          <Plus size={14} weight="bold" />
         </button>
       </div>
     )
