@@ -5,13 +5,13 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group'
 
 import { CreditCard, Bank, Money } from 'phosphor-react'
 
-interface PaymentMethod {
+interface PaymentMethodDataType {
   id: string
   icon: ReactNode
   title: string
 }
 
-const paymentMethods: PaymentMethod[] = [
+const paymentMethodsData: PaymentMethodDataType[] = [
   {
     id: '1',
     icon: <CreditCard size={16} className="text-purple-500" />,
@@ -51,7 +51,7 @@ export function PaymentMethodToggleGroup<T extends FieldValues = FieldValues>({
         value={value}
         onValueChange={(newValue) => onChange(newValue)}
       >
-        {paymentMethods.map((paymentMethod, index) => (
+        {paymentMethodsData.map((paymentMethod, index) => (
           <ToggleGroup.Item
             key={paymentMethod.id}
             value={paymentMethod.id}
