@@ -3,7 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 import z from 'zod'
 
-import { AmountInput } from '../../../components/AmountInput'
+import { AmountInput } from './AmountInput'
 
 import { ShoppingCartSimple } from 'phosphor-react'
 
@@ -41,7 +41,11 @@ export function CoffeeCard({ data }: CoffeeCardProps) {
 
   async function handleAddCoffeeToCart(dataInput: addCoffeeToCardType) {
     const { amount } = dataInput
-    const coffeeSelected = { ...data, amount }
+    const { id } = data
+    const coffeeAmount = { id, amount }
+
+    const coffeeSelected = { coffeeAmount, ...data }
+    console.log(coffeeSelected)
 
     addItemtoShoopingCart(coffeeSelected)
   }
