@@ -22,6 +22,8 @@ module.exports = {
       'purple-300': '#EBE5F9',
       'purple-500': '#8047F8',
       'purple-700': '#4B2995',
+
+      'red-500': '#F75A68',
     },
     fontFamily: {
       sans: ['Roboto', 'sans-serif'],

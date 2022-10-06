@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
 import z from 'zod'
 
@@ -7,18 +8,29 @@ import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
 import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 
 import { AmountInputCheckout } from './components/AmountInputCheckout'
+import { Input } from '../../components/Input'
 
 const userAddressInfoSchema = z.object({
-  cep: z.number(),
-  street: z.string(),
-  number: z.number(),
-  complement: z.string(),
-  neighborhood: z.string(),
-  city: z.string(),
-  state: z.string(),
-  paymentMethod: z.string(),
-  coffeeAmount: z.number(),
-  amount: z.string().array(),
+  cep: z
+    .number({
+      required_error: 'Você deve informar o seu CEP',
+      invalid_type_error: 'Você deve informar o seu CEP',
+    })
+    .min(8, { message: 'O cep deve conter 8 dígitos' }),
+  street: z.string().min(1, 'Informe a sua rua da sua residência'),
+  number: z
+    .number({
+      required_error: 'Informe o numero da sua residência',
+      invalid_type_error: 'Informe o numero da sua residência',
+    })
+    .min(1, 'Informe o numero da sua residência'),
+  complement: z.string().optional(),
+  neighborhood: z.string().min(1, 'Irfome o seu bairro'),
+  city: z.string().min(1, 'Informe a sua cidade'),
+  state: z.string().min(1, 'Informe o seu estado'),
+  paymentMethod: z.enum(['Cartão de crédito', 'Cartão de débito', 'Dinheiro'], {
+    required_error: 'Você deve infomar um método de pagemento',
+  }),
 })
 
 type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
@@ -26,11 +38,15 @@ type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
 export function Checkout() {
   const { selectedCoffies, removeCoffeeAtCheckout } =
     useContext(ShoopingCartContext)
-  const checkoutForm = useForm<UserAddressInfoType>()
+  const checkoutForm = useForm<UserAddressInfoType>({
+    resolver: zodResolver(userAddressInfoSchema),
+  })
 
-  const { control, register, handleSubmit } = checkoutForm
+  const { control, register, handleSubmit, formState } = checkoutForm
+  const { errors } = formState
+  console.log(errors)
 
-  function handleCheckout(data: any) {
+  function handleCheckoutForm(data: any) {
     console.log(data)
   }
 
@@ -41,7 +57,7 @@ export function Checkout() {
   return (
     <main className="flex h-screen w-full mt-10">
       <form
-        onSubmit={handleSubmit(handleCheckout)}
+        onSubmit={handleSubmit(handleCheckoutForm)}
         className="flex w-full max-w-[1120px] mx-auto gap-8"
       >
         <div className="flex flex-col gap-3 max-w-[640px]">
@@ -63,44 +79,54 @@ export function Checkout() {
             </header>
 
             <div className="flex flex-col mt-8 gap-4">
-              <input
-                placeholder="CEP"
-                className="h-[42px] rounded-md bg-gray-300 p-3 w-[200px]"
-                {...register('cep', { valueAsNumber: true })}
-              />
-              <input
+              <div className="max-w-[200px]">
+                <Input
+                  placeholder="CEP"
+                  type="number"
+                  errorMesssage={errors.cep?.message}
+                  {...register('cep', { valueAsNumber: true })}
+                />
+              </div>
+              <Input
                 placeholder="Rua"
-                className="h-[42px] rounded-md bg-gray-300 p-3 "
+                type="number"
+                errorMesssage={errors.street?.message}
                 {...register('street')}
               />
+
               <div className="flex items-center gap-3">
-                <input
+                <Input
                   placeholder="Número"
-                  className="h-[42px] rounded-md bg-gray-300 p-3 "
+                  type="number"
+                  errorMesssage={errors.number?.message}
                   {...register('number')}
                 />
-                <input
+                <Input
                   placeholder="Complemento"
-                  className="h-[42px] rounded-md bg-gray-300 p-3 flex-1"
+                  errorMesssage={errors.complement?.message}
                   {...register('complement')}
                 />
               </div>
               <div className="flex items-center gap-3">
-                <input
-                  placeholder="Bairro"
-                  className="h-[42px] rounded-md bg-gray-300 p-3 "
-                  {...register('neighborhood')}
-                />
-                <input
+                <div className="max-w-[200px]">
+                  <Input
+                    placeholder="Bairro"
+                    errorMesssage={errors.neighborhood?.message}
+                    {...register('neighborhood')}
+                  />
+                </div>
+                <Input
                   placeholder="Cidade"
-                  className="h-[42px] rounded-md bg-gray-300 p-3 flex-1"
+                  errorMesssage={errors.city?.message}
                   {...register('city')}
                 />
-                <input
-                  placeholder="UF"
-                  className="h-[42px] rounded-md bg-gray-300 p-3 w-[60px]"
-                  {...register('state')}
-                />
+                <div className="max-w-[60px]">
+                  <Input
+                    placeholder="UF"
+                    errorMesssage={errors.state?.message}
+                    {...register('state')}
+                  />
+                </div>
               </div>
             </div>
           </div>
