@@ -10,6 +10,7 @@ interface Tag {
   id: string
   name: string
 }
+
 interface CoffeeData {
   id: string
   name: string
