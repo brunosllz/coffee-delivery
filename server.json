@@ -5,7 +5,7 @@
       "name": "Café com leite",
       "description": "Meio a meio de expresso tradicional com leite vaporizado",
       "imageUrl": "./src/assets/coffies/cafe-com-leite.png",
-      "price": 0.09,
+      "price": 990,
       "tags": [
         {
           "id": "1",
@@ -22,7 +22,7 @@
       "name": "Expresso Americano",
       "description": "Expresso diluído, menos intenso que o tradicional",
       "imageUrl": "./src/assets/coffies/americano.png",
-      "price": 0.09,
+      "price": 990,
       "tags": [
         {
           "id": "1",
@@ -35,7 +35,7 @@
       "name": "Expresso Tradicional",
       "description": "O tradicional café feito com água quente e grãos moídos",
       "imageUrl": "./src/assets/coffies/expresso.png",
-      "price": 0.09,
+      "price": 990,
       "tags": [
         {
           "id": "1",
@@ -48,7 +48,7 @@
       "name": "Expresso Cremoso",
       "description": "Café expresso tradicional com espuma cremosa",
       "imageUrl": "./src/assets/coffies/expresso-cremoso.png",
-      "price": 0.09,
+      "price": 990,
       "tags": [
         {
           "id": "1",
@@ -61,7 +61,7 @@
       "name": "Expresso Gelado",
       "description": "Bebida preparada com café expresso e cubos de gelo",
       "imageUrl": "./src/assets/coffies/cafe-gelado.png",
-      "price": 0.09,
+      "price": 990,
       "tags": [
         {
           "id": "1",

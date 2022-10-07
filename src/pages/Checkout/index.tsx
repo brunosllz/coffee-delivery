@@ -9,6 +9,7 @@ import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 
 import { AmountInputCheckout } from './components/AmountInputCheckout'
 import { Input } from '../../components/Input'
+import { priceFormatter } from '../../utils/priceFormatter'
 
 const userAddressInfoSchema = z.object({
   cep: z
@@ -44,7 +45,6 @@ export function Checkout() {
 
   const { control, register, handleSubmit, formState } = checkoutForm
   const { errors } = formState
-  console.log(errors)
 
   function handleCheckoutForm(data: any) {
     console.log(data)
@@ -53,6 +53,17 @@ export function Checkout() {
   function handleRemoveCoffee(coffeeId: string) {
     removeCoffeeAtCheckout(coffeeId)
   }
+
+  const checkoutValue = selectedCoffies.reduce(
+    (acc, coffee) => {
+      acc.totalItens += coffee.price * coffee.amount
+
+      return acc
+    },
+    {
+      totalItens: 0,
+    },
+  )
 
   return (
     <main className="flex h-screen w-full mt-10">
@@ -194,7 +205,7 @@ export function Checkout() {
                       </div>
                     </div>
 
-                    <strong>{coffee.price}</strong>
+                    <strong>{priceFormatter(coffee.price)}</strong>
                   </li>
                 )
               })}
@@ -203,7 +214,9 @@ export function Checkout() {
             <footer className="flex flex-col mt-6 gap-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Total de itens</span>
-                <span className="text-sm">R$ 29,70</span>
+                <span className="text-sm">
+                  R$ {priceFormatter(checkoutValue.totalItens)}
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Entrega</span>
@@ -211,7 +224,9 @@ export function Checkout() {
               </div>
               <div className="flex items-center justify-between">
                 <strong className="text-xl font-bold">Total</strong>
-                <strong className="text-xl font-bold">R$ 33,20</strong>
+                <strong className="text-xl font-bold">
+                  R$ {priceFormatter(checkoutValue.totalItens + 350)}
+                </strong>
               </div>
 
               <button className="w-full bg-yellow-500 hover:bg-yellow-700 transition-colors text-white border-0 rounded-md py-3 mt-6 font-bold uppercase">

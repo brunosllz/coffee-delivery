@@ -6,6 +6,7 @@ import z from 'zod'
 import { AmountInput } from './AmountInput'
 
 import { ShoppingCartSimple } from 'phosphor-react'
+import { priceFormatter } from '../../../utils/priceFormatter'
 
 interface Tag {
   id: string
@@ -85,7 +86,7 @@ export function CoffeeCard({ coffee, tags }: CoffeeCardProps) {
         <span className="text-sm">
           R${' '}
           <strong className="text-2xl font-baloo font-extrabold">
-            {coffee.price}
+            {priceFormatter(coffee.price)}
           </strong>
         </span>
         <form
