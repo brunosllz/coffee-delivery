@@ -11,6 +11,7 @@ import { AmountInputCheckout } from './components/AmountInputCheckout'
 import { Input } from '../../components/Input'
 import { priceFormatter } from '../../utils/priceFormatter'
 import { cepInputMask } from '../../utils/cepInputMask'
+import { stateInputMask } from '../../utils/stateInputMask'
 
 const userAddressInfoSchema = z.object({
   cep: z
@@ -63,10 +64,12 @@ export function Checkout() {
   }
 
   const cepValue = watch('cep')
+  const stateValue = watch('state')
 
   useEffect(() => {
     setValue('cep', cepInputMask(cepValue))
-  }, [cepValue, setValue])
+    setValue('state', stateInputMask(stateValue))
+  }, [cepValue, setValue, stateValue])
 
   return (
     <main className="flex h-screen w-full mt-10">
