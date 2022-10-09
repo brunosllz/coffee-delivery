@@ -2,16 +2,17 @@ import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
+import { cepInputMask } from '../../utils/cepInputMask'
+import { priceFormatter } from '../../utils/priceFormatter'
+import { stateInputMask } from '../../utils/stateInputMask'
+import { useNavigate } from 'react-router-dom'
 import z from 'zod'
 
 import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
-import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
-
-import { AmountInputCheckout } from './components/AmountInputCheckout'
 import { Input } from '../../components/Input'
-import { priceFormatter } from '../../utils/priceFormatter'
-import { cepInputMask } from '../../utils/cepInputMask'
-import { stateInputMask } from '../../utils/stateInputMask'
+import { AmountInputCheckout } from './components/AmountInputCheckout'
+
+import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 
 const userAddressInfoSchema = z.object({
   cep: z
@@ -34,16 +35,17 @@ const userAddressInfoSchema = z.object({
 type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
 
 export function Checkout() {
-  const { selectedCoffies, removeCoffeeAtCheckout } =
+  const { selectedCoffies, removeCoffeeAtCheckout, clearShoopingCart } =
     useContext(ShoopingCartContext)
   const checkoutForm = useForm<UserAddressInfoType>({
     resolver: zodResolver(userAddressInfoSchema),
   })
+  const navigate = useNavigate()
 
   const { control, register, handleSubmit, formState, watch, setValue } =
     checkoutForm
   const { errors } = formState
-  console.log(errors)
+
   const checkoutValue = selectedCoffies.reduce(
     (acc, coffee) => {
       acc.totalItens += coffee.price * coffee.amount
@@ -56,7 +58,13 @@ export function Checkout() {
   )
 
   function handleCheckoutForm(data: any) {
-    console.log(data)
+    const finishedCheckout = {
+      ...data,
+      selectedCoffies,
+    }
+
+    navigate('success', { state: finishedCheckout })
+    clearShoopingCart()
   }
 
   function handleRemoveCoffee(coffeeId: string) {

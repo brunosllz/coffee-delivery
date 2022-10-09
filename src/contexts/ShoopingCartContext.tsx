@@ -23,6 +23,7 @@ interface ShoopingCartContextProps {
   selectedCoffies: Coffee[]
   updateAmountCoffeeAtCheckout: (data: UpdatedAmountCoffeeAtCheckout) => void
   removeCoffeeAtCheckout: (coffeeId: string) => void
+  clearShoopingCart: () => void
 }
 
 export const ShoopingCartContext = createContext({} as ShoopingCartContextProps)
@@ -79,6 +80,10 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     setSelectedCoffies(deleteCoffee)
   }
 
+  function clearShoopingCart() {
+    setSelectedCoffies([])
+  }
+
   useEffect(() => {
     const selectedCoffiesJSON = JSON.stringify(selectedCoffies)
 
@@ -95,6 +100,7 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
         selectedCoffies,
         updateAmountCoffeeAtCheckout,
         removeCoffeeAtCheckout,
+        clearShoopingCart,
       }}
     >
       {children}

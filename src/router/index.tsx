@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { DefaultLayout } from '../layout/DefaultLayout'
 import { Checkout } from '../pages/Checkout'
 import { Home } from '../pages/Home'
+import { NotFound } from '../pages/NotFound'
 import { SuccessCheckout } from '../pages/SuccessCheckout'
 import { PrivateCheckout } from './PrivateCheckout'
 
@@ -14,8 +15,8 @@ export function Router() {
           <Route path="/checkout" element={<Checkout />} />
         </Route>
         <Route path="/checkout/success" element={<SuccessCheckout />} />
-        <Route path="*" />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

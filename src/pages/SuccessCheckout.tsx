@@ -1,8 +1,11 @@
 import { Clock, CurrencyDollar, MapPin } from 'phosphor-react'
+import { useLocation } from 'react-router-dom'
 
 import DeliveryImage from '../assets/delivery-image.png'
 
 export function SuccessCheckout() {
+  const { state } = useLocation()
+
   return (
     <main className="flex w-full ">
       <div className="flex  max-w-[1120px] w-full mx-auto gap-[102px] py-20">
@@ -20,9 +23,14 @@ export function SuccessCheckout() {
               </div>
               <div className="flex flex-col">
                 <span>
-                  Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                  Entrega em{' '}
+                  <strong>
+                    {state.street}, {state.number}
+                  </strong>
                 </span>
-                <span>Farrapos - Porto Alegre, RS</span>
+                <span>
+                  {state.neighborhood} - {state.city}, {state.state}
+                </span>
               </div>
             </li>
 
@@ -42,7 +50,7 @@ export function SuccessCheckout() {
               </div>
               <div className="flex flex-col">
                 <span>Pagamento na entrega</span>
-                <strong>Cartão de Crédito</strong>
+                <strong>{state.paymentMethod}</strong>
               </div>
             </li>
           </ul>
