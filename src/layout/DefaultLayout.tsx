@@ -25,7 +25,7 @@ export function DefaultLayout() {
             </div>
 
             <Link
-              to={hasItemInShoopingCart ? 'checkout' : '/'}
+              to="checkout"
               className="w-38 h-38 bg-yellow-300 text-yellow-500 p-2 rounded-md relative"
             >
               {hasItemInShoopingCart && (
