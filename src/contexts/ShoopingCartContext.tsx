@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 
 interface Coffee {
   id: string
@@ -31,7 +31,17 @@ interface ShoopingCartProviderProps {
 }
 
 export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
-  const [selectedCoffies, setSelectedCoffies] = useState<Coffee[]>([])
+  const [selectedCoffies, setSelectedCoffies] = useState<Coffee[]>(() => {
+    const selectedCoffiesStorage = localStorage.getItem(
+      '@coffee-delivery:selectedCoffies',
+    )
+
+    if (selectedCoffiesStorage) {
+      return JSON.parse(selectedCoffiesStorage)
+    }
+
+    return []
+  })
 
   function addCoffeetoShoopingCart({ data }: AddCoffeeToShoopingCartData) {
     const addCoffee = selectedCoffies.map((coffee) => {
@@ -65,6 +75,15 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
 
     setSelectedCoffies(deleteCoffee)
   }
+
+  useEffect(() => {
+    const selectedCoffiesJSON = JSON.stringify(selectedCoffies)
+
+    localStorage.setItem(
+      '@coffee-delivery:selectedCoffies',
+      selectedCoffiesJSON,
+    )
+  }, [selectedCoffies])
 
   return (
     <ShoopingCartContext.Provider

@@ -19,12 +19,11 @@ const userAddressInfoSchema = z.object({
     })
     .min(8, { message: 'O cep deve conter 8 dígitos' }),
   street: z.string().min(1, 'Informe a sua rua da sua residência'),
-  number: z
-    .number({
-      required_error: 'Informe o numero da sua residência',
-      invalid_type_error: 'Informe o numero da sua residência',
-    })
-    .min(1, 'Informe o numero da sua residência'),
+  number: z.number({
+    required_error: 'Informe o numero da sua residência',
+    invalid_type_error: 'Informe o numero da sua residência',
+  }),
+  // .min(1, 'Informe o numero da sua residência'),
   complement: z.string().optional(),
   neighborhood: z.string().min(1, 'Irfome o seu bairro'),
   city: z.string().min(1, 'Informe a sua cidade'),
@@ -46,14 +45,6 @@ export function Checkout() {
   const { control, register, handleSubmit, formState } = checkoutForm
   const { errors } = formState
 
-  function handleCheckoutForm(data: any) {
-    console.log(data)
-  }
-
-  function handleRemoveCoffee(coffeeId: string) {
-    removeCoffeeAtCheckout(coffeeId)
-  }
-
   const checkoutValue = selectedCoffies.reduce(
     (acc, coffee) => {
       acc.totalItens += coffee.price * coffee.amount
@@ -64,6 +55,14 @@ export function Checkout() {
       totalItens: 0,
     },
   )
+
+  function handleCheckoutForm(data: any) {
+    console.log(data)
+  }
+
+  function handleRemoveCoffee(coffeeId: string) {
+    removeCoffeeAtCheckout(coffeeId)
+  }
 
   return (
     <main className="flex h-screen w-full mt-10">
@@ -94,13 +93,12 @@ export function Checkout() {
                 <Input
                   placeholder="CEP"
                   type="number"
-                  errorMesssage={errors.cep?.message}
+                  errorMesssage={errors.street?.message}
                   {...register('cep', { valueAsNumber: true })}
                 />
               </div>
               <Input
                 placeholder="Rua"
-                type="number"
                 errorMesssage={errors.street?.message}
                 {...register('street')}
               />
@@ -110,7 +108,7 @@ export function Checkout() {
                   placeholder="Número"
                   type="number"
                   errorMesssage={errors.number?.message}
-                  {...register('number')}
+                  {...register('number', { valueAsNumber: true })}
                 />
                 <Input
                   placeholder="Complemento"
