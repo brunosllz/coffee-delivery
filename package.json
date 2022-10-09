@@ -23,6 +23,7 @@
     "react-hook-form": "^7.36.1",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.4.1",
+    "react-toastify": "^9.0.8",
     "zod": "^3.19.1"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 interface Coffee {
   id: string
@@ -53,6 +54,7 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     if (searchCoffee) {
       searchCoffee.amount += data.amount
 
+      toast.success('Item adionado ao carrinho', { autoClose: 1000 })
       return setSelectedCoffies(addCoffee)
     }
     const NewCoffee = { ...data }
@@ -60,6 +62,7 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     setSelectedCoffies((state) => {
       return [...state, NewCoffee]
     })
+    toast.success('Item adionado ao carrinho', { autoClose: 1000 })
   }
 
   function updateAmountCoffeeAtCheckout({

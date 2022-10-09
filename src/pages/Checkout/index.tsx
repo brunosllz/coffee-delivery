@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
@@ -10,20 +10,17 @@ import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 import { AmountInputCheckout } from './components/AmountInputCheckout'
 import { Input } from '../../components/Input'
 import { priceFormatter } from '../../utils/priceFormatter'
+import { cepInputMask } from '../../utils/cepInputMask'
 
 const userAddressInfoSchema = z.object({
   cep: z
-    .number({
-      required_error: 'Você deve informar o seu CEP',
-      invalid_type_error: 'Você deve informar o seu CEP',
-    })
-    .min(8, { message: 'O cep deve conter 8 dígitos' }),
+    .string({ required_error: 'Informe o seu CEP' })
+    .min(8, { message: 'Informe o seu CEP' }),
   street: z.string().min(1, 'Informe a sua rua da sua residência'),
   number: z.number({
     required_error: 'Informe o numero da sua residência',
     invalid_type_error: 'Informe o numero da sua residência',
   }),
-  // .min(1, 'Informe o numero da sua residência'),
   complement: z.string().optional(),
   neighborhood: z.string().min(1, 'Irfome o seu bairro'),
   city: z.string().min(1, 'Informe a sua cidade'),
@@ -42,9 +39,10 @@ export function Checkout() {
     resolver: zodResolver(userAddressInfoSchema),
   })
 
-  const { control, register, handleSubmit, formState } = checkoutForm
+  const { control, register, handleSubmit, formState, watch, setValue } =
+    checkoutForm
   const { errors } = formState
-
+  console.log(errors)
   const checkoutValue = selectedCoffies.reduce(
     (acc, coffee) => {
       acc.totalItens += coffee.price * coffee.amount
@@ -63,6 +61,12 @@ export function Checkout() {
   function handleRemoveCoffee(coffeeId: string) {
     removeCoffeeAtCheckout(coffeeId)
   }
+
+  const cepValue = watch('cep')
+
+  useEffect(() => {
+    setValue('cep', cepInputMask(cepValue))
+  }, [cepValue, setValue])
 
   return (
     <main className="flex h-screen w-full mt-10">
@@ -92,9 +96,9 @@ export function Checkout() {
               <div className="max-w-[200px]">
                 <Input
                   placeholder="CEP"
-                  type="number"
-                  errorMesssage={errors.street?.message}
-                  {...register('cep', { valueAsNumber: true })}
+                  // type="number"
+                  errorMesssage={errors.cep?.message}
+                  {...register('cep')}
                 />
               </div>
               <Input
