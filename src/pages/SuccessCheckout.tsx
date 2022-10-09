@@ -3,8 +3,20 @@ import { useLocation } from 'react-router-dom'
 
 import DeliveryImage from '../assets/delivery-image.png'
 
+interface StateRouteProps {
+  street: string
+  number: number
+  neighborhood: string
+  city: string
+  state: string
+  paymentMethod: 'Cartão de crédito' | 'Cartão de débito' | 'Dinheiro'
+}
+
 export function SuccessCheckout() {
-  const { state } = useLocation()
+  const location = useLocation()
+
+  const { city, neighborhood, number, paymentMethod, state, street } =
+    location.state as StateRouteProps
 
   return (
     <main className="flex w-full ">
@@ -25,11 +37,11 @@ export function SuccessCheckout() {
                 <span>
                   Entrega em{' '}
                   <strong>
-                    {state.street}, {state.number}
+                    {street}, {number}
                   </strong>
                 </span>
                 <span>
-                  {state.neighborhood} - {state.city}, {state.state}
+                  {neighborhood} - {city}, {state}
                 </span>
               </div>
             </li>
@@ -50,7 +62,7 @@ export function SuccessCheckout() {
               </div>
               <div className="flex flex-col">
                 <span>Pagamento na entrega</span>
-                <strong>{state.paymentMethod}</strong>
+                <strong>{paymentMethod}</strong>
               </div>
             </li>
           </ul>
