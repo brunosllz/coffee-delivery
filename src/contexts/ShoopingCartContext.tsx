@@ -55,7 +55,7 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     if (searchCoffee) {
       searchCoffee.amount += data.amount
 
-      toast.success('Item adionado ao carrinho', { autoClose: 1000 })
+      toast.success('Item adionado ao carrinho', { autoClose: 500 })
       return setSelectedCoffies(addCoffee)
     }
     const NewCoffee = { ...data }
@@ -63,7 +63,7 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     setSelectedCoffies((state) => {
       return [...state, NewCoffee]
     })
-    toast.success('Item adionado ao carrinho', { autoClose: 1000 })
+    toast.success('Item adionado ao carrinho', { autoClose: 500 })
   }
 
   function updateAmountCoffeeAtCheckout({
