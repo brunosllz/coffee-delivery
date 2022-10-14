@@ -1,5 +1,5 @@
 import { Trash } from 'phosphor-react'
-import { useContext } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 import { priceFormatter } from '../../../utils/priceFormatter'
 import { AmountInputCheckout } from './AmountInputCheckout'
@@ -18,7 +18,12 @@ interface CoffeeCardCheckoutProps {
 }
 
 export function CoffeeCardCheckout({ data }: CoffeeCardCheckoutProps) {
-  const { removeCoffeeAtCheckout } = useContext(ShoopingCartContext)
+  const removeCoffeeAtCheckout = useContextSelector(
+    ShoopingCartContext,
+    (context) => {
+      return context.removeCoffeeAtCheckout
+    },
+  )
 
   function handleRemoveCoffee(coffeeId: string) {
     removeCoffeeAtCheckout(coffeeId)

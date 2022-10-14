@@ -1,13 +1,15 @@
 import { Link, Outlet } from 'react-router-dom'
-
-import { MapPin, ShoppingCartSimple } from 'phosphor-react'
-import LogoImage from '../assets/logo.svg'
-import { useContext } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { ShoopingCartContext } from '../contexts/ShoopingCartContext'
 import classNames from 'classnames'
 
+import { MapPin, ShoppingCartSimple } from 'phosphor-react'
+import LogoImage from '../assets/logo.svg'
+
 export function DefaultLayout() {
-  const { selectedCoffies } = useContext(ShoopingCartContext)
+  const selectedCoffies = useContextSelector(ShoopingCartContext, (context) => {
+    return context.selectedCoffies
+  })
 
   const hasItemInShoopingCart = selectedCoffies.length > 0
 

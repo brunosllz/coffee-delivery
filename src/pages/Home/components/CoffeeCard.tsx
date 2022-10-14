@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { useForm, FormProvider } from 'react-hook-form'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 import z from 'zod'
@@ -33,7 +33,12 @@ const addCoffeeToCardSchema = z.object({
 type addCoffeeToCardType = z.infer<typeof addCoffeeToCardSchema>
 
 export function CoffeeCard({ coffee, tags }: CoffeeCardProps) {
-  const { addCoffeetoShoopingCart } = useContext(ShoopingCartContext)
+  const addCoffeetoShoopingCart = useContextSelector(
+    ShoopingCartContext,
+    (context) => {
+      return context.addCoffeetoShoopingCart
+    },
+  )
   const addCoffeeToCard = useForm<addCoffeeToCardType>({
     defaultValues: { amount: 1 },
   })

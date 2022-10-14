@@ -24,6 +24,7 @@
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.4.1",
     "react-toastify": "^9.0.8",
+    "use-context-selector": "^1.4.1",
     "zod": "^3.19.1"
   },
   "devDependencies": {

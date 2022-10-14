@@ -1,8 +1,11 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { ShoopingCartContext } from '../contexts/ShoopingCartContext'
 
 export function useCheckout() {
-  const { selectedCoffies } = useContext(ShoopingCartContext)
+  const selectedCoffies = useContextSelector(ShoopingCartContext, (context) => {
+    return context.selectedCoffies
+  })
 
   const checkoutValue = useMemo(() => {
     return selectedCoffies.reduce(

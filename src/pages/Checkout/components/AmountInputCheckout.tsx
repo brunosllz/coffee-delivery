@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 
 import { Minus, Plus } from 'phosphor-react'
@@ -12,8 +12,12 @@ export function AmountInputCheckout({
   coffeeId,
   amount,
 }: AmountInputCheckoutProps) {
-  const { selectedCoffies, updateAmountCoffeeAtCheckout } =
-    useContext(ShoopingCartContext)
+  const { selectedCoffies, updateAmountCoffeeAtCheckout } = useContextSelector(
+    ShoopingCartContext,
+    (context) => {
+      return context
+    },
+  )
 
   function handleIncrementAmount() {
     const updateCoffee = selectedCoffies.map((coffee) => {
