@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { toast } from 'react-toastify'
 
 interface Coffee {
@@ -45,40 +51,47 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     return []
   })
 
-  function addCoffeetoShoopingCart({ data }: AddCoffeeToShoopingCartData) {
-    const addCoffee = selectedCoffies.map((coffee) => {
-      return { ...coffee }
-    })
+  const addCoffeetoShoopingCart = useCallback(
+    ({ data }: AddCoffeeToShoopingCartData) => {
+      const addCoffee = selectedCoffies.map((coffee) => {
+        return { ...coffee }
+      })
 
-    const searchCoffee = addCoffee.find((coffee) => coffee.id === data.id)
+      const searchCoffee = addCoffee.find((coffee) => coffee.id === data.id)
 
-    if (searchCoffee) {
-      searchCoffee.amount += data.amount
+      if (searchCoffee) {
+        searchCoffee.amount += data.amount
 
+        toast.success('Item adionado ao carrinho', { autoClose: 500 })
+        return setSelectedCoffies(addCoffee)
+      }
+      const NewCoffee = { ...data }
+
+      setSelectedCoffies((state) => {
+        return [...state, NewCoffee]
+      })
       toast.success('Item adionado ao carrinho', { autoClose: 500 })
-      return setSelectedCoffies(addCoffee)
-    }
-    const NewCoffee = { ...data }
+    },
+    [selectedCoffies],
+  )
 
-    setSelectedCoffies((state) => {
-      return [...state, NewCoffee]
-    })
-    toast.success('Item adionado ao carrinho', { autoClose: 500 })
-  }
+  const updateAmountCoffeeAtCheckout = useCallback(
+    ({ data }: UpdatedAmountCoffeeAtCheckout) => {
+      setSelectedCoffies(data)
+    },
+    [],
+  )
 
-  function updateAmountCoffeeAtCheckout({
-    data,
-  }: UpdatedAmountCoffeeAtCheckout) {
-    setSelectedCoffies(data)
-  }
+  const removeCoffeeAtCheckout = useCallback(
+    (coffeeId: string) => {
+      const deleteCoffee = selectedCoffies.filter(
+        (coffee) => coffee.id !== coffeeId,
+      )
 
-  function removeCoffeeAtCheckout(coffeeId: string) {
-    const deleteCoffee = selectedCoffies.filter(
-      (coffee) => coffee.id !== coffeeId,
-    )
-
-    setSelectedCoffies(deleteCoffee)
-  }
+      setSelectedCoffies(deleteCoffee)
+    },
+    [selectedCoffies],
+  )
 
   function clearShoopingCart() {
     setSelectedCoffies([])
