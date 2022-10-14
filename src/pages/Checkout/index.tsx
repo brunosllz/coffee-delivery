@@ -1,20 +1,20 @@
 import { useContext, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
-import { cepInputMask } from '../../utils/cepInputMask'
-import { priceFormatter } from '../../utils/priceFormatter'
-import { stateInputMask } from '../../utils/stateInputMask'
 import { useNavigate } from 'react-router-dom'
 import z from 'zod'
+import { cepInputMask } from '../../utils/cepInputMask'
+import { stateInputMask } from '../../utils/stateInputMask'
+import { priceFormatter } from '../../utils/priceFormatter'
 
 import { PaymentMethodToggleGroup } from './components/PaymentMethodToggleGroup'
-import { Input } from '../../components/Input'
-import { AmountInputCheckout } from './components/AmountInputCheckout'
+import { CoffeeCardCheckout } from './components/CoffeeCardCheckout'
+import { NewCheckoutForm } from './components/NewCheckoutForm'
 
-import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
+import { CurrencyDollar, MapPinLine } from 'phosphor-react'
 
-const userAddressInfoSchema = z.object({
+const newCheckoutFormSchemaValidation = z.object({
   cep: z
     .string({ required_error: 'Informe o seu CEP' })
     .min(8, { message: 'Informe o seu CEP' }),
@@ -32,19 +32,18 @@ const userAddressInfoSchema = z.object({
   }),
 })
 
-type UserAddressInfoType = z.infer<typeof userAddressInfoSchema>
+export type newCheckoutFormType = z.infer<
+  typeof newCheckoutFormSchemaValidation
+>
 
 export function Checkout() {
-  const { selectedCoffies, removeCoffeeAtCheckout, clearShoopingCart } =
-    useContext(ShoopingCartContext)
-  const checkoutForm = useForm<UserAddressInfoType>({
-    resolver: zodResolver(userAddressInfoSchema),
+  const { selectedCoffies, clearShoopingCart } = useContext(ShoopingCartContext)
+  const checkoutForm = useForm<newCheckoutFormType>({
+    resolver: zodResolver(newCheckoutFormSchemaValidation),
   })
   const navigate = useNavigate()
 
-  const { control, register, handleSubmit, formState, watch, setValue } =
-    checkoutForm
-  const { errors } = formState
+  const { control, handleSubmit, watch, setValue, reset } = checkoutForm
 
   const checkoutValue = selectedCoffies.reduce(
     (acc, coffee) => {
@@ -57,18 +56,15 @@ export function Checkout() {
     },
   )
 
-  function handleCheckoutForm(data: any) {
+  function handleCheckoutForm(data: newCheckoutFormType) {
     const finishedCheckout = {
       ...data,
       selectedCoffies,
     }
 
     navigate('success', { state: finishedCheckout })
+    reset()
     clearShoopingCart()
-  }
-
-  function handleRemoveCoffee(coffeeId: string) {
-    removeCoffeeAtCheckout(coffeeId)
   }
 
   const cepValue = watch('cep')
@@ -103,56 +99,9 @@ export function Checkout() {
               </div>
             </header>
 
-            <div className="flex flex-col mt-8 gap-4">
-              <div className="max-w-[200px]">
-                <Input
-                  placeholder="CEP"
-                  // type="number"
-                  errorMesssage={errors.cep?.message}
-                  {...register('cep')}
-                />
-              </div>
-              <Input
-                placeholder="Rua"
-                errorMesssage={errors.street?.message}
-                {...register('street')}
-              />
-
-              <div className="flex items-center gap-3">
-                <Input
-                  placeholder="Número"
-                  type="number"
-                  errorMesssage={errors.number?.message}
-                  {...register('number', { valueAsNumber: true })}
-                />
-                <Input
-                  placeholder="Complemento"
-                  errorMesssage={errors.complement?.message}
-                  {...register('complement')}
-                />
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="max-w-[200px]">
-                  <Input
-                    placeholder="Bairro"
-                    errorMesssage={errors.neighborhood?.message}
-                    {...register('neighborhood')}
-                  />
-                </div>
-                <Input
-                  placeholder="Cidade"
-                  errorMesssage={errors.city?.message}
-                  {...register('city')}
-                />
-                <div className="max-w-[60px]">
-                  <Input
-                    placeholder="UF"
-                    errorMesssage={errors.state?.message}
-                    {...register('state')}
-                  />
-                </div>
-              </div>
-            </div>
+            <FormProvider {...checkoutForm}>
+              <NewCheckoutForm />
+            </FormProvider>
           </div>
           <footer className="bg-gray-200 rounded-md p-10 flex flex-col">
             <div className="flex items-start justify-start gap-2">
@@ -183,44 +132,7 @@ export function Checkout() {
           <div className="bg-gray-200 rounded-md p-10 flex flex-col">
             <ul className="flex flex-col gap-6">
               {selectedCoffies.map((coffee) => {
-                return (
-                  <li
-                    key={coffee.id}
-                    className="flex items-center justify-between border-b-[1px] border-b-gray-400 pb-6"
-                  >
-                    <div className="flex items-center gap-5">
-                      <div className="w-16 h-16 flex items-center justify-center">
-                        <img
-                          src={coffee.imageUrl}
-                          alt=""
-                          width={64}
-                          height={64}
-                          className="object-cover"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <span>{coffee.name}</span>
-                        <div className="flex items-center justify-start gap-4">
-                          <AmountInputCheckout
-                            coffeeId={coffee.id}
-                            amount={coffee.amount}
-                          />
-
-                          <button
-                            onClick={() => handleRemoveCoffee(coffee.id)}
-                            className="flex items-center justify-center p-2 gap-1 rounded-lg bg-gray-400 hover:bg-gray-500"
-                          >
-                            <Trash size={16} className="text-purple-500" />
-                            Remover
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <strong>{priceFormatter(coffee.price)}</strong>
-                  </li>
-                )
+                return <CoffeeCardCheckout key={coffee.id} data={coffee} />
               })}
             </ul>
 
