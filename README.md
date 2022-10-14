@@ -13,11 +13,11 @@
 
 <br/>
 
-![](https://github.com/brunosllz/todo-list/blob/main/src/assets/cover.png)
+![](https://github.com/brunosllz/coffee-delivery/blob/main/src/assets/cover.png)
 
 ## [](https://github.com/brunosllz/coffee-delivery#--sobre-o-projeto) 💻 Sobre o projeto
 
-Projeto desenvolvido no Segundo desafio da trilha de ReactJS no Ignite da [Rocketseat](https://www.rocketseat.com.br/), o projeto tem como premissa reforça os conceitos basicos do React como estados, imutabilidade do estado, listas e chaves no ReactJS, propriedades e componentização.
+Projeto desenvolvido no Segundo desafio da trilha de ReactJS no Ignite da [Rocketseat](https://www.rocketseat.com.br/), o projeto tem como premissa reforçar os conceitos do React como Estados, ContextAPI, LocalStorage, Imutabilidade do estado, Listas e chaves no ReactJS, Propriedades e Componentização.
 
 ---
 
@@ -43,7 +43,7 @@ $ npm run dev ou yarn dev
 
 ```
 
-Nesta aplicação estou usando um servidor local, então depois de rodar o projeto, rode o seguinte comando, para que possa visulizar os produtos.
+Nesta aplicação estou usando um servidor local com JSON-SERVER, então depois de rodar o projeto, rode o seguinte comando, para que possa visulizar os produtos.
 ```bash
 # Execute o servidor
 $ npm run dev:server
@@ -56,7 +56,7 @@ $ npm run dev:server
 
  Aqui você pode visualizar um pouco do layout e funcionalidades da aplicação.
  
- ![gif](https://github.com/brunosllz/todo-list/blob/main/src/assets/app.gif)
+ ![GIF](https://github.com/brunosllz/coffee-delivery/blob/main/src/assets/app-example.gif)
 
 ---
 
