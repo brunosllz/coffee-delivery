@@ -13,6 +13,7 @@ import { CoffeeCardCheckout } from './components/CoffeeCardCheckout'
 import { NewCheckoutForm } from './components/NewCheckoutForm'
 
 import { CurrencyDollar, MapPinLine } from 'phosphor-react'
+import { useCheckout } from '../../hooks/useCheckout'
 
 const newCheckoutFormSchemaValidation = z.object({
   cep: z
@@ -41,20 +42,11 @@ export function Checkout() {
   const checkoutForm = useForm<newCheckoutFormType>({
     resolver: zodResolver(newCheckoutFormSchemaValidation),
   })
-  const navigate = useNavigate()
 
   const { control, handleSubmit, watch, setValue, reset } = checkoutForm
+  const checkoutValue = useCheckout()
 
-  const checkoutValue = selectedCoffies.reduce(
-    (acc, coffee) => {
-      acc.totalItens += coffee.price * coffee.amount
-
-      return acc
-    },
-    {
-      totalItens: 0,
-    },
-  )
+  const navigate = useNavigate()
 
   function handleCheckoutForm(data: newCheckoutFormType) {
     const finishedCheckout = {
