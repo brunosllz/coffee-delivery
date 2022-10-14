@@ -4,6 +4,7 @@ import { MapPin, ShoppingCartSimple } from 'phosphor-react'
 import LogoImage from '../assets/logo.svg'
 import { useContext } from 'react'
 import { ShoopingCartContext } from '../contexts/ShoopingCartContext'
+import classNames from 'classnames'
 
 export function DefaultLayout() {
   const { selectedCoffies } = useContext(ShoopingCartContext)
@@ -14,7 +15,12 @@ export function DefaultLayout() {
     <div>
       <header className="flex py-11 bg-gray-100 w-full">
         <div className="flex items-center w-full max-w-[1120px] mx-auto justify-between">
-          <Link to="/">
+          <Link
+            to="/"
+            className={classNames({
+              'cursor-not-allowed': !selectedCoffies,
+            })}
+          >
             <img src={LogoImage} alt="" />
           </Link>
 
