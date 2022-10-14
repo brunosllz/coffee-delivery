@@ -1,6 +1,6 @@
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
 
-export function InfoSummary() {
+export function Stats() {
   return (
     <ul className="grid grid-cols-[236px_331px] gap-5">
       <li className="flex items-center justify-start gap-3">

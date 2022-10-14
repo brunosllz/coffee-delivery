@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import { CoffeeCard } from './components/CoffeeCard'
-import { InfoSummary } from './components/InfoSummary'
 
 import CoffeImage from '../../assets/coffee-image.png'
+import { Stats } from './components/Stats'
 
 interface Tag {
   id: string
@@ -48,7 +48,7 @@ export function Home() {
               </p>
             </div>
 
-            <InfoSummary />
+            <Stats />
           </div>
           <div className="flex-1 w-[476px] h-[360px] ">
             <img
