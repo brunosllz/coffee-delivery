@@ -93,9 +93,9 @@ export function ShoopingCartProvider({ children }: ShoopingCartProviderProps) {
     [selectedCoffies],
   )
 
-  function clearShoopingCart() {
+  const clearShoopingCart = useCallback(() => {
     setSelectedCoffies([])
-  }
+  }, [])
 
   useEffect(() => {
     const selectedCoffiesJSON = JSON.stringify(selectedCoffies)
