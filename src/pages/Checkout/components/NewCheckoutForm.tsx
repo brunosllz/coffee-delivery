@@ -14,7 +14,6 @@ export function NewCheckoutForm() {
       <div className="max-w-[200px]">
         <Input
           placeholder="CEP"
-          type="number"
           errorMesssage={errors.cep?.message}
           {...register('cep')}
         />

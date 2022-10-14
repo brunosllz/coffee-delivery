@@ -60,6 +60,7 @@ export function Checkout() {
   }
 
   const cepValue = watch('cep')
+  console.log(cepValue)
   const stateValue = watch('state')
 
   useEffect(() => {
