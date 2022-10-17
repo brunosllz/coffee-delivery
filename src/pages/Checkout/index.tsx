@@ -1,4 +1,5 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useContextSelector } from 'use-context-selector'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShoopingCartContext } from '../../contexts/ShoopingCartContext'
@@ -38,7 +39,12 @@ export type newCheckoutFormType = z.infer<
 >
 
 export function Checkout() {
-  const { selectedCoffies, clearShoopingCart } = useContext(ShoopingCartContext)
+  const { selectedCoffies, clearShoopingCart } = useContextSelector(
+    ShoopingCartContext,
+    (context) => {
+      return context
+    },
+  )
   const checkoutForm = useForm<newCheckoutFormType>({
     resolver: zodResolver(newCheckoutFormSchemaValidation),
   })
@@ -60,7 +66,6 @@ export function Checkout() {
   }
 
   const cepValue = watch('cep')
-  console.log(cepValue)
   const stateValue = watch('state')
 
   useEffect(() => {

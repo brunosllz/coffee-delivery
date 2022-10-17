@@ -2,6 +2,7 @@ import { useContextSelector } from 'use-context-selector'
 import { ShoopingCartContext } from '../../../contexts/ShoopingCartContext'
 
 import { Minus, Plus } from 'phosphor-react'
+import { useCallback } from 'react'
 
 interface AmountInputCheckoutProps {
   coffeeId: string
@@ -19,7 +20,7 @@ export function AmountInputCheckout({
     },
   )
 
-  function handleIncrementAmount() {
+  const handleIncrementAmount = useCallback(() => {
     const updateCoffee = selectedCoffies.map((coffee) => {
       return { ...coffee }
     })
@@ -30,9 +31,9 @@ export function AmountInputCheckout({
 
       updateAmountCoffeeAtCheckout({ data: updateCoffee })
     }
-  }
+  }, [coffeeId, selectedCoffies, updateAmountCoffeeAtCheckout])
 
-  function handleDecrementAmount() {
+  const handleDecrementAmount = useCallback(() => {
     const updateCoffee = selectedCoffies.map((coffee) => {
       return { ...coffee }
     })
@@ -44,7 +45,7 @@ export function AmountInputCheckout({
         updateAmountCoffeeAtCheckout({ data: updateCoffee })
       }
     }
-  }
+  }, [coffeeId, selectedCoffies, updateAmountCoffeeAtCheckout])
 
   return (
     <div className="w-[72px] h-[38px] rounded-md bg-gray-300 flex items-center">
@@ -55,12 +56,9 @@ export function AmountInputCheckout({
       >
         <Minus />
       </button>
-      <input
-        readOnly
-        value={amount}
-        className="w-[20px] h-[38px] bg-gray-300 text-center"
-        type="number"
-      />
+      <span className="w-[20px] h-[38px] bg-gray-300 leading-none flex items-center">
+        {amount}
+      </span>
       <button
         type="button"
         onClick={handleIncrementAmount}

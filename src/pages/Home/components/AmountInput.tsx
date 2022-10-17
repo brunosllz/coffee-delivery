@@ -38,7 +38,7 @@ export const AmountInput = forwardRef<HTMLInputElement, InputUncontrollerProps>(
           ref={ref}
           readOnly
           value={getValues(name)}
-          className="w-[20px] h-[38px] bg-gray-300 text-center"
+          className="w-[20px] h-[38px] bg-gray-300 text-center focus:ring-0"
           type="number"
           {...props}
         />
